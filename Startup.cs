@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using net_rest.Data;
+using System;
 
 namespace net_rest
 {
@@ -29,6 +30,7 @@ namespace net_rest
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "net_rest", Version = "v1" });
             });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICommanderRepo, CommanderRepo>();
             services.AddDbContext<CommanderContext>(options =>
                         options.UseNpgsql(Configuration.GetConnectionString("CommanderConnection")));
