@@ -29,7 +29,7 @@ namespace net_rest
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "net_rest", Version = "v1" });
             });
-            services.AddScoped<ICommanderRepo, MockCommanderRepo>();
+            services.AddScoped<ICommanderRepo, CommanderRepo>();
             services.AddDbContext<CommanderContext>(options =>
                         options.UseNpgsql(Configuration.GetConnectionString("CommanderConnection")));
         }
