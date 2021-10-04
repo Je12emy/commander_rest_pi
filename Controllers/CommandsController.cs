@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +50,25 @@ namespace net_rest
 
             var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
             return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDto.Id }, commandReadDto);
+        }
+
+        // PUT api/commands
+        [HttpPut("{id}")]
+        public ActionResult UpdateCommand(int id, CommandUpdateDto command)
+        {
+            var commandModel = _repository.GetCommandById(id);
+            if (commandModel == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(command, commandModel);
+
+            _repository.UpdateCommand(commandModel);
+
+            _repository.SaveChanges();
+
+            return NoContent();
         }
     }
 }
