@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using net_rest.Data;
 using net_rest.Dtos;
+using net_rest.Models;
 
 namespace net_rest
 {
@@ -23,12 +25,12 @@ namespace net_rest
         [HttpGet]
         public ActionResult<IEnumerable<CommandReadDto>> GetAllCommands()
         {
-            var commandItems = this._repository.GetAllCommands();
+            var commandItems = _repository.GetAllCommands();
             return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
         }
 
         // GET api/commands/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCommandById")]
         public ActionResult<CommandReadDto> GetCommandById(int id)
         {
             var command = _repository.GetCommandById(id);
@@ -37,6 +39,18 @@ namespace net_rest
                 return Ok(_mapper.Map<CommandReadDto>(command));
             }
             return NotFound();
+        }
+
+        // POST api/commands
+        [HttpPost]
+        public ActionResult<CommandReadDto> CreateCommand(CommandCreateDto command)
+        {
+            var commandModel = _mapper.Map<Command>(command);
+            _repository.CreateCommand(commandModel);
+            _repository.SaveChanges();
+
+            var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+            return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDto.Id }, commandReadDto);
         }
     }
 }

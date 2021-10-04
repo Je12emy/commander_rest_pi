@@ -8,7 +8,9 @@ namespace net_rest.Profiles
     {
         public CommandProfile()
         {
+            // source --> target
             CreateMap<Command, CommandReadDto>();
+            CreateMap<CommandCreateDto, Command>();
         }
     }
 }

@@ -6,6 +6,11 @@ namespace net_rest
 {
     public class MockCommanderRepo : ICommanderRepo
     {
+        public void CreateCommand(Command command)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             var commands = new List<Command> {
@@ -20,6 +25,11 @@ namespace net_rest
         public Command GetCommandById(int id)
         {
             return new Command { Id = 0, HowTo = "foo", Line = "bar", Platform = "Linux" };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
