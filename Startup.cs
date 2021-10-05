@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using net_rest.Data;
 using System;
 
@@ -25,7 +26,8 @@ namespace net_rest
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s =>
+                    s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "net_rest", Version = "v1" });
