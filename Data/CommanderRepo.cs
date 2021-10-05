@@ -42,5 +42,14 @@ namespace net_rest.Data
         {
             // Nothing here
         }
+
+        public void DeleteCommand(Command command)
+        {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+            _context.Remove(command);
+        }
     }
 }

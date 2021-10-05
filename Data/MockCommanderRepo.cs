@@ -11,6 +11,11 @@ namespace net_rest
             throw new System.NotImplementedException();
         }
 
+        public void DeleteCommand(Command command)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             var commands = new List<Command> {

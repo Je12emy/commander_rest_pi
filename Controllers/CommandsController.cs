@@ -97,6 +97,20 @@ namespace net_rest
 
             return NoContent();
         }
+
+        // DELETE api/commands/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCommand(int id)
+        {
+            var commandModel = _repository.GetCommandById(id);
+            if (commandModel == null)
+            {
+                return NotFound();
+            }
+            _repository.DeleteCommand(commandModel);
+            _repository.SaveChanges();
+            return NoContent();
+        }
     }
 }
 
