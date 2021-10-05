@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using net_rest.Data;
 using net_rest.Dtos;
@@ -63,6 +64,32 @@ namespace net_rest
             }
 
             _mapper.Map(command, commandModel);
+
+            _repository.UpdateCommand(commandModel);
+
+            _repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        // PATCH api/commands
+        [HttpPatch("{id}")]
+        public ActionResult PartialCommandUpdate(int id, JsonPatchDocument<CommandUpdateDto> patchDocument)
+        {
+            var commandModel = _repository.GetCommandById(id);
+            if (commandModel == null)
+            {
+                return NotFound();
+            }
+
+            var commandToPatch = _mapper.Map<CommandUpdateDto>(commandModel);
+            patchDocument.ApplyTo(commandToPatch, ModelState); 
+
+            if (!TryValidateModel(commandToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(commandToPatch, commandModel);
 
             _repository.UpdateCommand(commandModel);
 

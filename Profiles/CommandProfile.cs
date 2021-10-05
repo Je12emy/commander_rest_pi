@@ -12,6 +12,7 @@ namespace net_rest.Profiles
             CreateMap<Command, CommandReadDto>();
             CreateMap<CommandCreateDto, Command>();
             CreateMap<CommandUpdateDto, Command>();
+            CreateMap<Command, CommandUpdateDto>();
         }
     }
 }
